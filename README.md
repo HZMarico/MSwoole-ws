@@ -52,7 +52,7 @@ project                     应用部署目录
 js客户端代码示例：
 
 ```javascript
-var server = 'ws://socket.kfw001.com/live?auth=xxx';
+var server = 'ws://socket.xxx.com/?auth=xxx';
 var websocket = new WebSocket(server);
 // 服务连接事件
 websocket.onopen = function (evt) {
@@ -91,7 +91,7 @@ websocket.send(JSON.stringify(data));
 
 ## Auth规范
 
-> auth内包含id用户标识，type用户类型，code房间编码，nickname用户昵称，ctime加密串时间戳；使用**\Encrypt::undes($auth, 'kfw001-websocket')**解码Auth。
+> auth内包含id用户标识，type用户类型，code房间编码，nickname用户昵称，ctime加密串时间戳；使用**\Encrypt::undes($auth, 'marico-websocket')**解码Auth。
 > 微信用户类型为：wechatUser
 > 大屏幕用户为：wall
 
