@@ -3,7 +3,7 @@
 
 # 整体概述
 ```text
-Websocket模式与Log平台模式略有不同
+Websocket模式与HTTP模式略有不同
 服务配置文件位于Config/app.php
 其中setting内容为Swoole服务配置
 manager配置管理端口
