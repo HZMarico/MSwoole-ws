@@ -23,7 +23,7 @@ class Encrypt
      */
     public static function md5Pwd($str='')
     {
-        return md5(sha1($str.self::$key));
+        return md5(sha1($str).self::$key);
     }
 
     /**
