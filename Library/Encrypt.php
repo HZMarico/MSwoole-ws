@@ -8,7 +8,7 @@
 class Encrypt
 {
     // 加密秘钥字符串
-    protected static $key = 'kfw001_key';
+    protected static $key = 'Marico_key';
     // 字符替换规则
     protected static $rule = [
         '+' => '*',
