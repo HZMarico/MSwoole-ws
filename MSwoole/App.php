@@ -33,7 +33,7 @@ class App
     }
     /**
      * App constructor.私有化实例函数
-     * @param Array $data
+     * @param Mixed $data
      * @param none
      */
     private function __construct(Array $data=[])
@@ -154,6 +154,7 @@ class App
      * 增加fd离开时需要处理的集合
      * @param int $fd
      * @param string $controller
+     * @return bool
      */
     public function fdAddController($fd=0, $controller='')
     {
@@ -162,13 +163,14 @@ class App
         // 制作KEY
         $key = $this->FdController.$fd;
         // 存入集合
-        $redis->sAdd($key, $controller);
+        return $redis->sAdd($key, $controller);
     }
 
     /**
      * 减少fd离开时需要处理的集合
      * @param int $fd
      * @param string $controller
+     * @return bool
      */
     public function fdRemoveController($fd=0, $controller='')
     {
@@ -177,13 +179,14 @@ class App
         // 制作KEY
         $key = $this->FdController.$fd;
         // 存入集合
-        $redis->sRem($key, $controller);
+        return $redis->sRem($key, $controller);
     }
 
     /**
      * 增加fd离开时需要处理的集合
      * @param int $fd
      * @param string $key
+     * @return bool
      */
     public function fdAddCloseKey($fd=0, $key='')
     {
@@ -192,13 +195,14 @@ class App
         // 制作KEY
         $key = $this->FdCloseSetKey.$fd;
         // 存入集合
-        $redis->sAdd($key, $key);
+        return $redis->sAdd($key, $key);
     }
 
     /**
      * 减少fd离开时需要处理的集合
      * @param int $fd
      * @param string $key
+     * @return bool
      */
     public function fdRemoveCloseKey($fd=0, $key='')
     {
@@ -207,7 +211,8 @@ class App
         // 制作KEY
         $key = $this->FdCloseSetKey.$fd;
         // 存入集合
-        $redis->sRem($key, $key);
+        return $redis->sRem($key, $key);
+
     }
 
     /**

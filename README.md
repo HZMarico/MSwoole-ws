@@ -91,9 +91,9 @@ websocket.send(JSON.stringify(data));
 
 ## Auth规范
 
-> auth内包含id用户标识，type用户类型，code房间编码，nickname用户昵称，ctime加密串时间戳；使用**\Encrypt::undes($auth, 'marico-websocket')**解码Auth。
-> 微信用户类型为：wechatUser
-> 大屏幕用户为：wall
+> auth内包含id用户标识，type用户类型，code房间编码，nickname用户昵称，ctime加密串时间戳；使用\Encrypt::undes($auth, 'marico-websocket')解码Auth。
+> 1. 微信用户类型为：wechatUser
+> 2. 大屏幕用户为：wall
 
 ## 注意事项
 > Websocket建立TCP连接，保持连接需在每分钟内进行信息交互，否则服务端会主动切断Websocket连接。客户端连入服务端，需要携带Auth加密参数，否则返回403（用户权限不足）错误。
@@ -148,7 +148,7 @@ class Index
 ```php
 use Swoole\Http\Client;
 // 用户加密信息
-$auth = ';
+$auth = '';
 // 处理url
 $url = '/?auth='.$auth;
 // 请求参数
