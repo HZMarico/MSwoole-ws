@@ -8,6 +8,8 @@
  */
 namespace MSwoole;
 
+use Swoole\Mysql\Exception;
+
 class Handler
 {
     // 文件后缀
@@ -70,6 +72,21 @@ class Handler
         if (APP_DEBUG)
         {
             echo $errorStr;
+        }
+    }
+
+    /**
+     * 异常处理
+     * @param $e
+     * @param
+     * @return none
+     */
+    public static function appException($e)
+    {
+        // 判断是否为debug状态
+        if (APP_DEBUG && is_object($e))
+        {
+            echo $e->getMessage().PHP_EOL;
         }
     }
 }

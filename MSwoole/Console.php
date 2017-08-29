@@ -46,7 +46,11 @@ class Console
         // 注册自动加载规则
         spl_autoload_register(['\MSwoole\Handler', 'autoload']);
         // 注册错误
-        // set_error_handler(['\MSwoole\Handler', 'appError']);
+        set_error_handler(['\MSwoole\Handler', 'appError']);
+        // 注册throw
+        set_exception_handler(['\MSwoole\Handler', 'appException']);
+        // 注册意外终止
+        // register_shutdown_function();
         // 获取服务配置文件
         $data = include APP_PATH.'/Config/app.php';
         // 获取APP单例模型
