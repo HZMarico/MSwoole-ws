@@ -67,7 +67,8 @@ class Manager
                 $server->push($frame->fd, '服务即将关闭');
                 // 通知所有已实例化的控制器对象
                 Object::callControllerMethod([], 'onShutdown', [$data]);
-                $server->shutdown();
+                // 最终关闭服务
+                return $server->shutdown();
                 break;
             // 获取server状态
             case 'status' :
@@ -92,6 +93,8 @@ class Manager
             default :
                 $server->push($frame->fd, '指令无效');
         }
+        // 关闭当前管理连接
+        $server->close($frame->fd);
     }
 
     /**
