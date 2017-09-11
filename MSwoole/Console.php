@@ -147,7 +147,7 @@ class Console
         // 绑定消息监听
         $client->on('message', function (Client $client, $frame) {
             echo $frame->data.PHP_EOL;
-            $client->close();
+            // $client->close();
         });
         // 升级为websocket连接
         $client->upgrade('/', function (Client $client) use ($data) {

@@ -42,15 +42,19 @@ class Outside
      */
     public function onHandshake(Request $request, Response $response)
     {
-        // 检查用户合法性
-        $user = $this->checkRequest($request);
-        // 判断解码是否成功,用户合法性(不成功则返回404)
-        if (empty($user))
+        // 当AUTH检查开启时，启用auth处理
+        if (APP_AUTH_CHECK)
         {
-            $response->header('message', 'error auth');
-            $response->status(403);
-            $response->end();
-            return false;
+            // 检查用户合法性
+            $user = $this->checkRequest($request);
+            // 判断解码是否成功,用户合法性(不成功则返回404)
+            if (empty($user))
+            {
+                $response->header('message', 'error auth');
+                $response->status(403);
+                $response->end();
+                return false;
+            }
         }
         // 自定定握手规则，没有设置则用系统内置的（只支持version:13的）
         if (!isset($request->header['sec-websocket-key']))
@@ -98,7 +102,7 @@ class Outside
      * 消息处理
      * @param $server
      * @param $frame
-     * @param object $object
+     * @param none
      * @return bool
      */
     public function onMessage(Server $server, Frame $frame)
@@ -119,17 +123,21 @@ class Outside
         }
         // 回复给客户端，转而进行处理
         $this->app->sendSuccessMessage($fd,  'receiveMessage', '服务端已收到您的请求内容');
-        // 获取redis对象
-        $redis = \Cache::getRedis();
-        // 获取当前FD的数据
-        $user = $redis->hget($this->FdInfo, $fd);
-        // 判断是否获取成功
-        if (!empty($user))
+        // 当AUTH检查开启时，启用auth处理
+        if (APP_AUTH_CHECK)
         {
-            // 解码数据
-            $user = unserialize($user);
-            $data['code'] = $user['code'];
-            $data['auth'] = $user;
+            // 获取redis对象
+            $redis = \Cache::getRedis();
+            // 获取当前FD的数据
+            $user = $redis->hget($this->FdInfo, $fd);
+            // 判断是否获取成功
+            if (!empty($user))
+            {
+                // 解码数据
+                $user = unserialize($user);
+                $data['code'] = $user['code'];
+                $data['auth'] = $user;
+            }
         }
         // 将FD传入内部
         $data['fd'] = $fd;
@@ -149,10 +157,9 @@ class Outside
      * 关闭连接处理
      * @param Server $server
      * @param $fd
-     * @param $object
      * @return bool
      */
-    public function onClose(Server $server, $fd)
+    public function onClose(Server $server, $fd=0)
     {
         // 获取redis对象
         $redis = \Cache::getRedis();

@@ -17,6 +17,7 @@ in_array($data['s'], ['start', 'stop', 'reload', 'status', 'say'])
 ini_set('date.timezone','Asia/Shanghai');
 define("APP_PATH", realpath(dirname(__FILE__) . '/../'));
 define("APP_DEBUG", true);
+define("APP_AUTH_CHECK", false);
 
 // 获取console.对象
 include APP_PATH."/MSwoole/Console.php";
